@@ -1,82 +1,73 @@
 # Installation
-Mettez à jour les dépots apt
+Update the apt repositories
 ```shell
 apt update
 ```
-Installez php et les dépendances du projet
+Install php and the project dependencies
 ```shell
 apt install php php-xml composer npm
 ```
-Si vous utilisez sqlite:
+If you use sqlite:
 ```shell
 apt install php-sqlite3
 ```
-Si vous utilisez mysql:
+If you use mysql:
 ```shell
 apt install php-mysql
 ```
-Installez les dépendances composer:
+Install the composer dependencies:
 ```shell
 composer i
 ```
-Installez les dépendances npm:
+Install the npm dependencies:
 ```shell
 npm i
 ```
-Compilez le frontend:
+Compile the frontend:
 ```shell
 npm run dev
 ```
 Dans `.env.local`:
-- CHEMIN_IMAGES: Le chemin du dossier <emplacement du projet>/public/images
-- DATABASE_URL: Votre base de données
-- MAILER_DSN: Votre configuration email  
+- CHEMIN_IMAGES: The path to the folder <project location>/public/images
+- DATABASE_URL: Your database
+- MAILER_DSN: Your email settings
 ```
 CHEMIN_IMAGES=/var/www/listedecourses/public/images
 DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
 MAILER_DSN=
 ```
-Pour supprimer la base de données
+To delete the database: 
 ```shell
 php bin/console doctrine:database:drop --force
 ```
-Pour créer la base de donnée en fonction de DATABASE_URL
+To create the database based on DATABASE_URL: 
 ```shell
 php bin/console doctrine:database:create
 ```
-Pour mettre à jour le schéma
+To update the diagram: 
 ```shell
 php bin/console doctrine:schema:update --force
 ```
-Pour créer une diff:
+To create a diff:
 ```shell
 php bin/console do:mi:di
 ```
-Pour créer une migration:
+To create a migration:
 ```shell
 php bin/console do:mi:mi
 ```
-Pour charger les fixtures:
-```shell
-php bin/console doctrine:fixtures:load
-```
+
 ## Prod
-Faites pour rendre le projet en prod
+Make the project in prod
 ```shell
 composer dump-env prod
 ````
-Pour clear le cache:
+To clear the cache:
 ```shell
 php bin/console cache:clear --env=prod
 php bin/console cache:warmup --env=prod
 ```
-# Execution (avec le serveur de développement php)
+# Execution (with the php development server)
 ```shell
 php -S 127.0.0.1:80 -t public/ 
-```
-
-## Mot de passe admin
-
-```shell
-minh
 ```
