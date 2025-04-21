@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+{% endblock %}
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="mb-4">Bienvenue {{ username }}</h2>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card shadow-sm p-3">
+                    <h5 class="card-title">Répartition Sucré/Salé</h5>
+                    <div style="height: 150px;">
+                        <canvas id="sucreSaleCHart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm p-3">
+                    <h5 class="card-title">Statistiques</h5>
+                    <ul class="list-group list-group-flush">
+
+                        <li class="list-group-item">Totalité des sommes dépensées: <strong>{{ total_somme_depense }}€</strong></li>
+                        <li class="list-group-item">Moyenne coût par article: <strong>{{ moyenne_cout_article }}€/article</strong></li>
+                        <li class="list-group-item">Moyenne pondérée des coûts par article: <strong>{{ vraie_moyenne }}€/article</strong></li>
+                        <li class="list-group-item">Article le plus cher: <strong>
+                                {% if obj_article_le_plus_cher is not null %}
+                                    {% if obj_article_le_plus_cher.image %}
+                                        <img src="{{ asset('images/' ~ obj_article_le_plus_cher.image) }}"
+                                             alt="Image de {{ obj_article_le_plus_cher.name }} "
+                                             onerror="this.onerror=null;this.src='{{ asset('media/notfound.avif') }}';"
+                                             class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <img src="{{ asset('media/notfound.avif') }}"
+                                             alt="Image not found"
+                                             class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% endif %}
+                                    {{ obj_article_le_plus_cher.name }}: {{ obj_article_le_plus_cher.price }}€
+                                {% else %}
+                                    Pas d'article
+                                {% endif %}
+
+                            </strong></li>
+                        <li class="list-group-item">Article le moins cher: <strong>
+                                {% if obj_article_le_moins_cher is not null %}
+                                    {% if obj_article_le_moins_cher.image %}
+                                        <img src="{{ asset('images/' ~ obj_article_le_moins_cher.image) }}"
+                                             alt="Image de {{ obj_article_le_moins_cher.name }} "
+                                             onerror="this.onerror=null;this.src='{{ asset('media/notfound.avif') }}';"
+                                             class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <img src="{{ asset('media/notfound.avif') }}"
+                                             alt="Image not found"
+                                             class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% endif %}
+                                    {{ obj_article_le_moins_cher.name }}: {{ obj_article_le_moins_cher.price }}€
+                                {% else %}
+                                    Pas d'article
+                                {% endif %}
+                            </strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="mt-5">Listes de courses</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for shopping_list in user_shopping_lists %}
+                <div class="col">
+                    <div class="card shadow-sm p-3">
+                        <h5 class="card-title">{{ shopping_list.nom }}</h5>
+                        <ul class="list-group list-group-flush">
+                            {% for shoppingListArticle in shopping_list.shoppingListArticles|slice(0, 3) %}
+                                <li class="list-group-item">
+                                    {% if shoppingListArticle.article.image %}
+                                        <img src="{{ asset('images/' ~ shoppingListArticle.article.image) }}"
+                                             alt="Image de {{ shoppingListArticle.article.name }} "
+                                             onerror="this.onerror=null;this.src='{{ asset('media/notfound.avif') }}';"
+                                             class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% else %}
+                                        <img src="{{ asset('media/notfound.avif') }}"
+                                             alt="Image not found"
+                                             class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+                                    {% endif %}
+
+                                    {{ shoppingListArticle.qty }}
+                                    {{ shoppingListArticle.article.name }}
+                                </li>
+                            {% else %}
+                                <li class="list-group-item text-muted">Pas d'articles</li>
+                            {% endfor %}
+                        </ul>
+                        <div class="d-flex justify-content-between mt-3">
+                            <a class="btn btn-primary" href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}">Details</a>
+                            <a class="btn btn-danger" data-id="{{ shopping_list.id }}" data-csrf="{{ csrf_token('delete' ~ shopping_list.id) }}">Supprimer</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+            {% endfor %}
+
+            <div class="col">
+                {{ form_start(formAjouterListe) }}
+                <div class="card shadow-sm p-3">
+                    <h5 class="card-title">Nouvelle liste</h5>
+                    <div class="mb-3">
+                        {{ form_widget(formAjouterListe.nom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <button class="btn btn-success">{{ button_label|default('Ajouter liste') }}</button>
+                </div>
+                {{ form_end(formAjouterListe) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ShoppingList index{% endblock %}
+
+{% block body %}
+    <h1>Liste des courses </h1>
+    <div class="row-cols-auto">
+        <label>
+        <input type="text" id="search" placeholder="Rechercher..."></label>
+        <label>
+            <select>
+                <option value="1">Trier par</option>
+                <option value="2">Nom</option>
+                <option value="3">Date</option>
+            </select>
+        </label>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for shopping_list in shopping_lists %}
+            <tr>
+                <td>{{ shopping_list.id }}</td>
+                <td>
+                    <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}" class="button showBtn"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}" class="button editBtn"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{{ path('app_shopping_list_delete', {'id':shopping_list.id}) }}" class="button deleteBtn"><i class="fa-solid fa-trash"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>
+                <a href="{{ path('app_shopping_list_new') }}">Create new</a>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    <a href="{{ path('app_shopping_list_new') }}">Create new</a>
+{% endblock %}

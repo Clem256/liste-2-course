@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Categorie{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="mb-0">Créer une nouvelle catégorie</h1>
+    </div>
+
+    {{ include('categorie/_form.html.twig') }}
+
+{% endblock %}

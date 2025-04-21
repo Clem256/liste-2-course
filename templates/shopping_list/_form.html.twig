@@ -1,0 +1,32 @@
+{% block body %}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>Edition de la liste</h1>
+            <a href="{{ path('app_home_index') }}" class="btn btn-secondary mt-3">Back to list</a>
+        </div>
+        {{ form_start(form) }}
+
+        <fieldset class="border p-3">
+            <legend class="w-auto">Article Details</legend>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form_label(form.article, 'Article') }}
+                    {{ form_widget(form.article, {'attr': {'class': 'form-select'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.qty, 'Quantity') }}
+                    {{ form_widget(form.qty, {'attr': {'class': 'form-control', 'min': 1}}) }}
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-success">Add Article</button>
+        </div>
+
+        {{ form_end(form) }}
+
+    </div>
+{% endblock %}
+

@@ -1,0 +1,20 @@
+{% block body %}
+    <div class="container mt-4">
+        {{ form_start(form) }}
+
+        <fieldset class="border p-3 w-100">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    {{ form_label(form.nom, 'Nom de la catégorie', {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Categorie...'}}) }}
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="d-flex justify-content-end mt-3">
+            <button type="submit" class="btn btn-primary px-4">{{ button_label|default('Save') }}</button>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

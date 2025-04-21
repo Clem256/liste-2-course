@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="d-flex align-items-center mb-4">
+            <h1 class="me-auto">Article {{ article.name }} </h1>
+            <div>
+                <a href="{{ path('app_article_index') }}" class="btn btn-secondary me-2">Retour au stock</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_article_edit', {'id': article.id}) }}" class="btn btn-success">Modifier</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ article.name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ article.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prix</th>
+                        <td>{{ article.price }}</td>
+                    </tr>
+                    <tr>
+                        <th>Quantité</th>
+                        <td>{{ article.quantity }}</td>
+                    </tr>
+                    <tr>
+                        <th>Unité</th>
+                        <td>{{ article.unit }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ article.type.value }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nutriscore</th>
+                        <td>{{ article.nutriscore }}</td>
+                    </tr>
+                    <tr>
+                        <th>Calories</th>
+                        <td>{{ article.calorie }}</td>
+                    </tr>
+                    <tr>
+                        <th>Label</th>
+                        <td>{{ article.label }}</td>
+                    </tr>
+                    <tr>
+                        <th>Catégorie</th>
+                        <td>{{ article.categorie.nom }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
